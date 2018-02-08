@@ -1,0 +1,30 @@
+1.Download oracle jdbc driver and install it using the below command
+
+spark-shell --driver-class-path ojdbc6.jar --jars ojdbc6.jar --packages com.databricks:spark-csv_2.10:1.4.0
+
+2.JDBC connection in Spark
+
+val employee = sqlContext.load("jdbc", Map("url" -> "jdbc:oracle:thin:HR/HR@//10.90.1.105:1521/dev", "dbtable" -> "HR.employees"))
+
+3.If you are getting SQLcontext error. run the below command
+
+import sqlContext.implicits._
+
+val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+
+
+val empDF = spark.read.format("jdbc").option("url", "jdbc:oracle:thin:HR/HR@//10.90.1.105:1521/DEV").option("dbtable", "hr.employees").option("user", "HR").option("password", "HR").option("driver", "oracle.jdbc.driver.OracleDriver").load()
+
+val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+
+warning: there was one deprecation warning; re-run with -deprecation for details
+
+sqlContext: org.apache.spark.sql.SQLContext = org.apache.spark.sql.SQLContext@3514ac7d
+
+
+Below Command will connect to Oracle Database --> HR Schema --> Access to Employees table
+
+scala> val employee = sqlContext.load("jdbc", Map("url" -> "jdbc:oracle:thin:HR/HR@//10.90.1.105:1521/dev", "dbtable" -> "HR.employees"))
+
+
+
